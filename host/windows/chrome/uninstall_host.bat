@@ -3,5 +3,5 @@
 :: found in the LICENSE file.
 
 :: Deletes the entry created by install_host.bat
-REG DELETE "HKCU\Software\Google\Chrome\NativeMessagingHosts\eu.irgang.url_forwarder" /f
-REG DELETE "HKLM\Software\Google\Chrome\NativeMessagingHosts\eu.irgang.url_forwarder" /f
+REG DELETE "HKCU\Software\Google\Chrome\NativeMessagingHosts\eu.irgang.download_processor" /f
+REG DELETE "HKLM\Software\Google\Chrome\NativeMessagingHosts\eu.irgang.download_processor" /f

@@ -1,8 +1,8 @@
 /*! 
- *  \brief     URL Forwarder
- *  \details   This extension allows redirection, forwarding and native handling of links.
+ *  \brief     Download Processor
+ *  \details   This extension allows automatic processing of file downloads.
  *  \author    Thomas Irgang
- *  \version   1.1
+ *  \version   1.0
  *  \date      2017
  *  \copyright MIT License
  Copyright 2017 Thomas Irgang

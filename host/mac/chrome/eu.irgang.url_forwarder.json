@@ -1,9 +1,0 @@
-{
-    "name": "eu.irgang.url_forwarder",
-    "description": "URL Forwarder (native host)",
-    "path": "HOST_PATH",
-    "type": "stdio",
-    "allowed_origins": [
-        "chrome-extension://lmpeobbiikaflonkgjaadebdgcnnfalp/"
-    ]
-}

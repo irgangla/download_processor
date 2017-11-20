@@ -1,6 +1,6 @@
-# URL Forwarder
+# Download Processor Host
 
-This is the source code of the native executable for the URL Forwarder extensions for Firefox and Chrome. It forwards the matched URLs to another external application which can be specified in the extension options.
+This is the source code of the native executable for the Download Processor extensions for Firefox and Chrome. It process the matched downloads using another external application which can be specified in the extension options.
 
 ## Message format
 
@@ -12,10 +12,10 @@ JSON Obejct:
 {
     "target": "<should be path to the executable>",
     "args": "<additional program arguments>",
-    "url": "<URL which was matched>"
+    "file": "<downloaded file which was matched>"
 }
     
-This results in executing the "target args url" on the local system.
+This results in executing the "target args file" on the local system.
 
 ### Answer message
 

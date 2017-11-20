@@ -1,8 +1,8 @@
 /*! 
- *  \brief     URL Forwarder
- *  \details   This extension allows redirection, forwarding and native handling of links.
+ *  \brief     Download Processor
+ *  \details   This extension allows automatic processing of file downloads.
  *  \author    Thomas Irgang
- *  \version   1.1
+ *  \version   1.0
  *  \date      2017
  *  \copyright MIT License
  Copyright 2017 Thomas Irgang
@@ -18,22 +18,13 @@ var api = browser;
 
 /*! active rules. */
 var rules;
-/*! URL of current tab. */
-var currentTabUrl = null;
-/*! last forwarded URL */
-var last_url = "";
 
 /*! Forward url and target to native component. */
-function callForwarder(url, rule) {
-    if (url == last_url) {
-        console.log("URL was already forwarded: " + url);
-        return;
-    }
-    last_url = url;
-    console.log("Send native: " + url);
+function callForwarder(file, rule) {
+    console.log("Send native: " + file);
     api.runtime.sendNativeMessage(
-        'eu.irgang.url_forwarder', {
-            "url": url,
+        'eu.irgang.download_processor', {
+            "file": file,
             "target": rule.target,
             "args": rule.args
         },
@@ -47,9 +38,12 @@ function answerHandler(response) {
 }
 
 /*! Search for matching rules. */
-function findRule(url) {
+function findRule(url, file) {
     var matching_rules = rules.filter(function (rule) {
         return url.match(rule.pattern);
+    });
+    var matching_rules = matching_rules.filter(function (rule) {
+        return file.match(rule.file_pattern);
     });
 
     if (matching_rules.length > 1) {
@@ -61,7 +55,7 @@ function findRule(url) {
     return null;
 }
 
-/*! Check is response is affected by a rule. */
+/*! Check is download affected by a rule. */
 function checkUrl(details) {
     if (details) {
         var url = details.url;
@@ -110,36 +104,6 @@ function checkUrl(details) {
     };
 }
 
-/*! Callback for tab changed. */
-function activeTabChanged(activeInfo) {
-    if (activeInfo) {
-        var tabId = activeInfo.tabId;
-        if (tabId) {
-            getCurrentTabUrl();
-        }
-    }
-}
-
-/*! Update current tab URL. */
-function getCurrentTabUrl() {
-    var queryInfo = {
-        active: true,
-        currentWindow: true
-    };
-
-    api.tabs.query(queryInfo, (tabs) => {
-        if (tabs) {
-            var tab = tabs[0];
-            if (tab) {
-                var url = tab.url;
-                if (url) {
-                    currentTabUrl = url;
-                }
-            }
-        }
-    });
-}
-
 /*! Load available rules from persistence. */
 function loadRules() {
     console.log("Load rules");
@@ -164,15 +128,9 @@ api.runtime.onMessage.addListener(function (msg) {
                 return rule.enabled;
             });
             console.log("Received rules: " + JSON.stringify(rules));
-        } else if (msg.kind == "release") {
-            console.log("Release URL lock.");
-            last_url = "";
         }
     }
 });
-
-/*! Register tab changed listener. */
-api.tabs.onActivated.addListener(activeTabChanged);
 
 /*! Register as request listener. */
 api.webRequest.onBeforeRequest.addListener(

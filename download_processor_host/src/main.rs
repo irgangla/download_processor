@@ -70,7 +70,7 @@ mod browser {
             
             if let Ok(m) = serde_json::from_str(&text) {
                 let json: serde_json::Value = m;
-                let url = String::from(json["url"].as_str().unwrap_or(&""));
+                let url = String::from(json["file"].as_str().unwrap_or(&""));
                 let target = String::from(json["target"].as_str().unwrap_or(&""));
                 let args = String::from(json["args"].as_str().unwrap_or(&""));
                 let err = String::from(json["error"].as_str().unwrap_or(&""));

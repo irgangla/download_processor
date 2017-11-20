@@ -1,6 +1,6 @@
-# URL Forwarder Host
+# Download Processor Host
 
-Host app for Url Forwarder extensions (Firefox and Chrome).
+Host app for Download Processor extensions (Firefox and Chrome).
 
 You can find install script and documentation for your platform in the sub folders.
 

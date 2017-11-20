@@ -1,3 +1,3 @@
-# URL Forwarder Host
+# Download Processor Host
 
-Host app for Url Forwarder extensions (Firefox and Chrome).
+Host app for the Download Processor extensions (Firefox and Chrome).

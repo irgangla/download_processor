@@ -20,7 +20,7 @@ else
   fi
 fi
 
-HOST_NAME=eu.irgang.url_forwarder
+HOST_NAME=eu.irgang.download_processor
 
 # Create directory to store native messaging host.
 mkdir -p "$TARGET_DIR"
@@ -29,7 +29,7 @@ mkdir -p "$TARGET_DIR"
 cp "$DIR/$HOST_NAME.json" "$TARGET_DIR"
 
 # Update host path in the manifest.
-HOST_PATH=$DIR/url_forwarder_host
+HOST_PATH=$DIR/download_processor_host
 ESCAPED_HOST_PATH=${HOST_PATH////\\/}
 sed -i -e "s/HOST_PATH/$ESCAPED_HOST_PATH/" "$TARGET_DIR/$HOST_NAME.json"
 

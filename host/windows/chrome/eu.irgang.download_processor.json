@@ -1,0 +1,10 @@
+
+{
+    "name": "eu.irgang.download_processor",
+    "description": "Download Processor (native host)",
+    "path": "download_processor_host.exe",
+    "type": "stdio",
+    "allowed_origins": [
+        "chrome-extension://<TODO: add>/"
+    ]
+}

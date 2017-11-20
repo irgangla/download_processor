@@ -1,0 +1,9 @@
+{
+    "name": "eu.irgang.download_processor",
+    "description": "Download Processor (native host)",
+    "path": "HOST_PATH",
+    "type": "stdio",
+    "allowed_extensions": [
+        "<TODO: add>"
+    ]
+}

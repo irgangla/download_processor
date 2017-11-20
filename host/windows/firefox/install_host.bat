@@ -4,4 +4,4 @@
 
 :: Change HKCU to HKLM if you want to install globally.
 :: %~dp0 is the directory containing this bat script and ends with a backslash.
-REG ADD "HKCU\Software\Mozilla\NativeMessagingHosts\eu.irgang.url_forwarder" /ve /t REG_SZ /d "%~dp0eu.irgang.url_forwarder.json" /f
+REG ADD "HKCU\Software\Mozilla\NativeMessagingHosts\eu.irgang.download_processor" /ve /t REG_SZ /d "%~dp0eu.irgang.download_processor.json" /f

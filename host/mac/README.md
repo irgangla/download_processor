@@ -1,6 +1,6 @@
-# URL Forwarder Host
+# Download Processor Host
 
-Host app for Url Forwarder extensions (Firefox and Chrome) for OSX/MacOS.
+Host app for the Download Processor extensions (Firefox and Chrome) for OSX/MacOS.
 
 You can find the install scipts and executable for your browser in the sub folders. The executable for both browsers is the same, only the host json files and install scripts differ.
 
