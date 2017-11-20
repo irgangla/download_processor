@@ -51,6 +51,9 @@ function findRule(url) {
     var matching_rules = rules.filter(function (rule) {
         return url.match(rule.pattern);
     });
+    var matching_rules = rules.filter(function (rule) {
+        return url.match(rule.file_pattern);
+    });
 
     return (matching_rules.length > 0);
 }
@@ -82,12 +85,6 @@ function loadRules() {
 
 function closePopup() {
     window.close();
-}
-
-function release() {
-    api.runtime.sendMessage({
-        "kind": "release"
-    });
 }
 
 /*! Register message listener for rule update message. */
@@ -122,7 +119,6 @@ api.runtime.onMessage.addListener(function (msg) {
 /*! Init popup. */
 window.onload = function () {
     document.getElementById("x").onclick = closePopup;
-    document.getElementById("release").onclick = release;
 
     loadRules();
 

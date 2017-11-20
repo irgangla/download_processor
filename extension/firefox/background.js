@@ -56,52 +56,8 @@ function findRule(url, file) {
 }
 
 /*! Check is download affected by a rule. */
-function checkUrl(details) {
-    if (details) {
-        var url = details.url;
-        if (url) {
-            var rule = findRule(url);
-            if (rule) {
-                console.log("URL match: " + url);
-                callForwarder(url, rule);
-                if (rule.action == 0) {
-                    console.log("action: stay");
-                    if (currentTabUrl) {
-                        console.log("Redirect to " + currentTabUrl);
-                        return {
-                            redirectUrl: currentTabUrl
-                        };
-                    } else {
-                        console.log("No current tab, block instead.");
-                        return {
-                            cancel: true
-                        };
-                    }
-                } else if (rule.action == 1) {
-                    console.log("action: block");
-                    return {
-                        cancel: true
-                    };
-                } else {
-                    console.log("action: redirect");
-                    if (rule.redirect) {
-                        console.log("Redirect to " + rule.redirect);
-                        return {
-                            redirectUrl: rule.redirect
-                        };
-                    } else {
-                        console.log("No redirect URL, block instead.");
-                        return {
-                            cancel: true
-                        };
-                    }
-                }
-            }
-        }
-    }
-    return {
-        cancel: false
-    };
+function checkDownload(download) {
+    TODO
 }
 
 /*! Load available rules from persistence. */
@@ -132,12 +88,8 @@ api.runtime.onMessage.addListener(function (msg) {
     }
 });
 
-/*! Register as request listener. */
-api.webRequest.onBeforeRequest.addListener(
-    checkUrl, {
-        urls: ["<all_urls>"]
-    }, ["blocking"]
-);
+/*! Register as download listener. */
+TODO
 
 //load rules on startup
 loadRules();

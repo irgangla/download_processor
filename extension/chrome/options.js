@@ -14,7 +14,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var api = chrome;
+var api = browser;
 
 /*! known rules */
 var rules = [];
@@ -25,10 +25,9 @@ function updateRule() {
     console.log("Update rule " + index);
     rules[index].enabled = document.getElementById('rule_enabled_' + index).checked;
     rules[index].pattern = document.getElementById('rule_pattern_' + index).value;
+    rules[index].file_pattern = document.getElementById('rule_file_' + index).value;
     rules[index].target = document.getElementById('rule_target_' + index).value;
     rules[index].args = document.getElementById('rule_args_' + index).value;
-    rules[index].action = document.getElementById('rule_action_' + index).value;
-    rules[index].redirect = document.getElementById('rule_redirect_' + index).value;
 
     saveRules();
 
@@ -69,10 +68,9 @@ function renderRules() {
         var col_enabled = document.createElement('td');
         col_enabled.style = 'text-align: center;';
         var col_pattern = document.createElement('td');
+        var col_file = document.createElement('td');
         var col_target = document.createElement('td');
         var col_args = document.createElement('td');
-        var col_action = document.createElement('td');
-        var col_redirect = document.createElement('td');
         var col_delete = document.createElement('td');
         var col_save = document.createElement('td');
 
@@ -89,6 +87,13 @@ function renderRules() {
         text_pattern.id = 'rule_pattern_' + i;
         col_pattern.appendChild(text_pattern);
         row.appendChild(col_pattern);
+        
+        var text_file = document.createElement('input');
+        text_file.value = rule.file_pattern;
+        text_file.type = 'input';
+        text_file.id = 'rule_file_' + i;
+        col_file.appendChild(text_file);
+        row.appendChild(col_file);
 
         var text_target = document.createElement('input');
         text_target.value = rule.target;
@@ -103,41 +108,6 @@ function renderRules() {
         text_args.id = 'rule_args_' + i;
         col_args.appendChild(text_args);
         row.appendChild(col_args);
-
-        var option_action = document.createElement('select');
-        option_action.id = 'rule_action_' + i;
-
-        var opt_stay = document.createElement('option');
-        opt_stay.innerText = "stay";
-        opt_stay.value = 0;
-        if (rule.action == 0) {
-            opt_stay.selected = true;
-        }
-        option_action.appendChild(opt_stay);
-        var opt_block = document.createElement('option');
-        opt_block.innerText = "block";
-        opt_block.value = 1;
-        if (rule.action == 1) {
-            opt_block.selected = true;
-        }
-        option_action.appendChild(opt_block);
-        var opt_redirect = document.createElement('option');
-        opt_redirect.innerText = "redirect";
-        opt_redirect.value = 2;
-        if (rule.action == 2) {
-            opt_redirect.selected = true;
-        }
-        option_action.appendChild(opt_redirect);
-
-        col_action.appendChild(option_action);
-        row.appendChild(col_action);
-
-        var text_redirect = document.createElement('input');
-        text_redirect.value = rule.redirect;
-        text_redirect.type = 'input';
-        text_redirect.id = 'rule_redirect_' + i;
-        col_redirect.appendChild(text_redirect);
-        row.appendChild(col_redirect);
 
         var btn_delete = document.createElement('button');
         btn_delete.onclick = deleteRule;
@@ -165,26 +135,15 @@ function addRule() {
     var rule = {};
     rule.enabled = true;
     rule.pattern = document.getElementById('pattern').value;
+    rule.file_pattern = document.getElementById('file').value;
     rule.target = document.getElementById('target').value;
     rule.args = document.getElementById('arguments').value;
-    rule.action = document.getElementById('action').value;
-    rule.redirect = document.getElementById('redirect').value;
 
     console.log(JSON.stringify(rule));
 
     rules.push(rule);
     renderRules();
     saveRules();
-}
-
-/*! Callback for action choice. Set disabled state of redirect text according to used or not. */
-function actionChanged() {
-    if (document.getElementById('action').value == 2) {
-        document.getElementById('redirect').disabled = false;
-    } else {
-        document.getElementById('redirect').disabled = true;
-        document.getElementById('redirect').value = "";
-    }
 }
 
 /*! Load rules from browser persistence. */
@@ -223,7 +182,6 @@ function setup() {
     loadRules();
 
     document.getElementById('add').onclick = addRule;
-    document.getElementById('action').onchange = actionChanged;
     document.getElementById('refresh').onclick = loadRules;
 
     console.log("Options loaded.");

@@ -14,26 +14,17 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var api = chrome;
+var api = browser;
 
 /*! active rules. */
 var rules;
-/*! URL of current tab. */
-var currentTabUrl = null;
-/*! last forwarded URL */
-var last_url = "";
 
 /*! Forward url and target to native component. */
-function callForwarder(url, rule) {
-    if (url == last_url) {
-        console.log("URL was already forwarded: " + url);
-        return;
-    }
-    last_url = url;
-    console.log("Send native: " + url);
+function callForwarder(file, rule) {
+    console.log("Send native: " + file);
     api.runtime.sendNativeMessage(
-        'eu.irgang.url_forwarder', {
-            "url": url,
+        'eu.irgang.download_processor', {
+            "file": file,
             "target": rule.target,
             "args": rule.args
         },
@@ -47,9 +38,12 @@ function answerHandler(response) {
 }
 
 /*! Search for matching rules. */
-function findRule(url) {
+function findRule(url, file) {
     var matching_rules = rules.filter(function (rule) {
         return url.match(rule.pattern);
+    });
+    var matching_rules = matching_rules.filter(function (rule) {
+        return file.match(rule.file_pattern);
     });
 
     if (matching_rules.length > 1) {
@@ -61,83 +55,9 @@ function findRule(url) {
     return null;
 }
 
-/*! Check is response is affected by a rule. */
-function checkUrl(details) {
-    if (details) {
-        var url = details.url;
-        if (url) {
-            var rule = findRule(url);
-            if (rule) {
-                console.log("URL match: " + url);
-                callForwarder(url, rule);
-                if (rule.action == 0) {
-                    console.log("action: stay");
-                    if (currentTabUrl) {
-                        console.log("Redirect to " + currentTabUrl);
-                        return {
-                            redirectUrl: currentTabUrl
-                        };
-                    } else {
-                        console.log("No current tab, block instead.");
-                        return {
-                            cancel: true
-                        };
-                    }
-                } else if (rule.action == 1) {
-                    console.log("action: block");
-                    return {
-                        cancel: true
-                    };
-                } else {
-                    console.log("action: redirect");
-                    if (rule.redirect) {
-                        console.log("Redirect to " + rule.redirect);
-                        return {
-                            redirectUrl: rule.redirect
-                        };
-                    } else {
-                        console.log("No redirect URL, block instead.");
-                        return {
-                            cancel: true
-                        };
-                    }
-                }
-            }
-        }
-    }
-    return {
-        cancel: false
-    };
-}
-
-/*! Callback for tab changed. */
-function activeTabChanged(activeInfo) {
-    if (activeInfo) {
-        var tabId = activeInfo.tabId;
-        if (tabId) {
-            getCurrentTabUrl();
-        }
-    }
-}
-
-/*! Update current tab URL. */
-function getCurrentTabUrl() {
-    var queryInfo = {
-        active: true,
-        currentWindow: true
-    };
-
-    api.tabs.query(queryInfo, (tabs) => {
-        if (tabs) {
-            var tab = tabs[0];
-            if (tab) {
-                var url = tab.url;
-                if (url) {
-                    currentTabUrl = url;
-                }
-            }
-        }
-    });
+/*! Check is download affected by a rule. */
+function checkDownload(download) {
+    TODO
 }
 
 /*! Load available rules from persistence. */
@@ -164,22 +84,12 @@ api.runtime.onMessage.addListener(function (msg) {
                 return rule.enabled;
             });
             console.log("Received rules: " + JSON.stringify(rules));
-        } else if (msg.kind == "release") {
-            console.log("Release URL lock.");
-            last_url = "";
         }
     }
 });
 
-/*! Register tab changed listener. */
-api.tabs.onActivated.addListener(activeTabChanged);
-
-/*! Register as request listener. */
-api.webRequest.onBeforeRequest.addListener(
-    checkUrl, {
-        urls: ["<all_urls>"]
-    }, ["blocking"]
-);
+/*! Register as download listener. */
+TODO
 
 //load rules on startup
 loadRules();

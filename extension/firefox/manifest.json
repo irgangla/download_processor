@@ -36,10 +36,10 @@
     ],
 
     "manifest_version": 2,
-
+    
     "applications": {
         "gecko": {
-            "id": "{bff638ba-59df-4985-af17-982ef7cf0a53}"
+            "id": "{83f45a49-5a80-9c4c-8729-d13b826b2210}"
         }
     }
 }

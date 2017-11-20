@@ -4,12 +4,6 @@
 <head>
     <meta charset="utf-8" />
     <title>Download Processor</title>
-    <style>
-        body: {
-            padding: 10px;
-        }
-
-    </style>
     <script src="options.js"></script>
 </head>
 
@@ -21,7 +15,7 @@
                     <div style="vertical-align: middle; text-align: center;"><img src="icon32.png"></div>
                 </td>
                 <td style="width: 70% vertical-align: middle; text-align: center;">
-                    <h1>URL Download Processor - Settings</h1>
+                    <h1>Download Processor - Settings</h1>
                 </td>
                 <td style="width: 15%; vertical-align: middle; text-align: center;">
                     <button id=refresh>refresh</button>
@@ -34,11 +28,10 @@
         <table id=rules style="width: 100%">
             <tr>
                 <th>Enabled</th>
-                <th style="min-width: 100px;">Pattern</th>
+                <th style="min-width: 100px;">URL</th>
+                <th style="min-width: 100px;">File</th>
                 <th style="min-width: 100px;">Target</th>
                 <th style="min-width: 50px;">Arguments</th>
-                <th>Action</th>
-                <th style="min-width: 100px;">Redirekt to</th>
                 <th>Delete</th>
                 <th>Save</th>
             </tr>
@@ -46,25 +39,17 @@
         <h2>Add Rule:</h2>
         <table>
             <tr>
-                <th style="min-width: 100px;">Pattern</th>
+                <th style="min-width: 100px;">URL</th>
+                <th style="min-width: 100px;">File</th>
                 <th style="min-width: 100px;">Target</th>
                 <th style="min-width: 50px;">Arguments</th>
-                <th style="max-width: 40px;">Action</th>
-                <th style="min-width: 100px;">Redirekt to</th>
                 <th>Add</th>
             </tr>
             <tr>
                 <td><input type=text id=pattern placeholder=Pattern></td>
+                <td><input type=text id=file placeholder=File></td>
                 <td><input type=text id=target placeholder=Target></td>
                 <td><input type=text id=arguments placeholder=Arguments></td>
-                <td style="text-align: center">
-                    <select id=action>
-                        <option value=0>stay</option>
-                        <option value=1>block</option>
-                        <option value=2>redirect</option>
-                    </select>
-                </td>
-                <td><input type=text id=redirect placeholder="Redirect to" disabled=true></td>
                 <td style="text-align: center"><button id=add>+</button></td>
             </tr>
         </table>
