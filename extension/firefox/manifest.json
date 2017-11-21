@@ -22,16 +22,16 @@
     },
 
     "options_ui": {
+        "browser_style": true,
         "page": "options.html",
         "chrome_style": true
     },
 
     "permissions": [
+        "downloads",
         "nativeMessaging",
         "tabs",
         "<all_urls>",
-        "webRequest",
-        "webRequestBlocking",
         "storage"
     ],
 

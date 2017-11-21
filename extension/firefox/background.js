@@ -118,4 +118,4 @@ api.downloads.onChanged.addListener(handleChanged);
 //load rules on startup
 loadRules();
 
-console.log("Background job started.");
+console.log("Download processor background job started.");

@@ -5,6 +5,6 @@
     "path": "download_processor_host.exe",
     "type": "stdio",
     "allowed_origins": [
-        "chrome-extension://<TODO: add>/"
+        "chrome-extension://amfpicncbcepaldhgjepjdfmmfagogpo/"
     ]
 }

@@ -27,12 +27,10 @@
     },
 
     "permissions": [
+        "downloads",
         "nativeMessaging",
         "tabs",
         "background",
-        "webRequest",
-        "<all_urls>",
-        "webRequestBlocking",
         "<all_urls>",
         "storage"
     ],
