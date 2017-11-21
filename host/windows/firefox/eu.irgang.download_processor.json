@@ -4,6 +4,6 @@
     "path": "download_processor_host.exe",
     "type": "stdio",
     "allowed_extensions": [
-        "{<TODO: add>}"
+        "{83f45a49-5a80-9c4c-8729-d13b826b2210}"
     ]
 }

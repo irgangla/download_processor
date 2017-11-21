@@ -20,7 +20,7 @@ var api = browser;
 var rules;
 
 /*! Forward url and target to native component. */
-function callForwarder(file, rule) {
+function sendNativeMessage(file, rule) {
     console.log("Send native: " + file);
     api.runtime.sendNativeMessage(
         'eu.irgang.download_processor', {
@@ -43,7 +43,7 @@ function findRule(url, file) {
         return url.match(rule.pattern);
     });
     var matching_rules = matching_rules.filter(function (rule) {
-        return file.match(rule.file_pattern);
+        return url.match(rule.file_pattern);
     });
 
     if (matching_rules.length > 1) {
@@ -56,8 +56,12 @@ function findRule(url, file) {
 }
 
 /*! Check is download affected by a rule. */
-function checkDownload(download) {
-    TODO
+function checkDownload(url, file) {
+    var rule = findRule(url, file);
+    if(rule) {
+        console.log(url + ", " + file + " matched " + JSON.stringify(rule));
+        sendNativeMessage(file, rule);    
+    }
 }
 
 /*! Load available rules from persistence. */
@@ -88,8 +92,28 @@ api.runtime.onMessage.addListener(function (msg) {
     }
 });
 
+/*! Callback for download status change. */
+function handleChanged(delta) {
+    if (delta.state && delta.state.current === "complete") {
+        api.downloads.search({
+                "id": delta.id
+            },
+            downloadFinished);
+    }
+}
+
+/*! Download was finished, check rules. */
+function downloadFinished(items) {
+    if (items && items.length > 0) {
+        var item = items[0];
+        var url = items[0].url;
+        var file = items[0].filename;
+        checkDownload(url, file);
+    }
+}
+
 /*! Register as download listener. */
-TODO
+api.downloads.onChanged.addListener(handleChanged);
 
 //load rules on startup
 loadRules();
