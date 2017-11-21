@@ -21,7 +21,7 @@ var rules;
 
 /*! Forward url and target to native component. */
 function sendNativeMessage(file, rule) {
-    console.log("Send native: " + file);
+    console.log("Send native: " + file + ", " + JSON.stringify(rule));
     api.runtime.sendNativeMessage(
         'eu.irgang.download_processor', {
             "file": file,

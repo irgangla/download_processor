@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 
 
-var api = browser;
+var api = chrome;
 
 /*! All enabled rules. */
 var rules = [];
